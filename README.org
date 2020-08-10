@@ -1,0 +1,75 @@
+#+TITLE: Python CSV usage
+#+PROPERTY: header-args:sh :session *shell python-csv-usage sh* :results silent raw
+#+PROPERTY: header-args:python :session *shell python-csv-usage python* :results silent raw
+#+OPTIONS: ^:nil
+
+** System environment
+
+- Python 3.7.4
+
+** Import
+
+#+BEGIN_SRC python
+import csv
+#+END_SRC
+
+** Simple
+
+#+BEGIN_SRC python
+fn = 'data/simple.csv'
+#+END_SRC
+
+*** Writer
+
+#+BEGIN_SRC python
+csvfile = open(fn, 'w', newline='')
+spamwriter = csv.writer(csvfile)
+spamwriter.writerow(['Spam'] * 5 + ['Baked Beans'])
+spamwriter.writerow(['Spam', 'Lovely Spam', 'Wonderful Spam'])
+csvfile.close()
+#+END_SRC
+
+*** Reader
+
+#+BEGIN_SRC python
+csvfile = open(fn, newline='')
+spamreader = csv.reader(csvfile)
+for row in spamreader:
+    print(', '.join(row))
+
+csvfile.close()
+#+END_SRC
+
+** Dict Reader/Writer
+
+#+BEGIN_SRC python
+fn = 'data/dict.csv'
+#+END_SRC
+
+*** Dict Writer
+
+#+BEGIN_SRC python
+csvfile = open(fn, 'w', newline='')
+fieldnames = ['first_name', 'last_name']
+writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+writer.writeheader()
+writer.writerow({'first_name': 'Baked', 'last_name': 'Beans'})
+writer.writerow({'first_name': 'Lovely', 'last_name': 'Spam'})
+writer.writerow({'first_name': 'Wonderful', 'last_name': 'Spam'})
+csvfile.close()
+#+END_SRC
+
+*** Dict Reader
+
+#+BEGIN_SRC python
+csvfile = open(fn, newline='')
+reader = csv.DictReader(csvfile)
+for row in reader:
+    print(row['first_name'], row['last_name'])
+
+csvfile.close()
+#+END_SRC
+
+** References
+
+- https://docs.python.org/3.7/library/csv.html
